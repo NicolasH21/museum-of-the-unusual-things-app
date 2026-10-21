@@ -1,27 +1,109 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ask me anything</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <title>Museum of the Unusual Things</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
-    <div class="container text-center mt-5">
-        <h1 class="display-4">Ask me anything</h1>
-        <form method="POST" class="mx-auto col-md-8 col-lg-6">
-            <div class="mb-3">
-                <textarea name="prompt" rows="4" class="form-control" placeholder="Enter your prompt..."></textarea>
+
+    <div class="container py-5">
+
+        <!-- Header -->
+        <header class="text-center mb-5">
+            <h1 class="display-4">Museum of the <br> Unusual Things</h1>
+            <p class="lead">
+                Every art piece has a unique story. Let us give it a unique exhibition.
+            </p>
+        </header>
+
+        <!-- Object input form -->
+        <section class="mb-5">
+            <form method="POST" class="mx-auto col-md-8 col-lg-6">
+
+                <div class="mb-3">
+                    <label for="object" class="form-label">
+                        Describe something unusual.
+                    </label>
+
+                    <textarea
+                        id="object"
+                        name="prompt"
+                        rows="3"
+                        class="form-control"
+                        placeholder="If it doesn't exist, we will imagine it for you...."
+                        required>{{ prompt or '' }}</textarea>
+                </div>
+
+                <div class="d-grid">
+                    <input
+                        type="submit"
+                        value="Create"
+                        class="btn btn-dark">
+                </div>
+
+            </form>
+        </section>
+
+        <!-- Gallery result -->
+        {% if label or image_url %}
+
+        <section class="mt-5">
+            <div class="row align-items-start g-4">
+
+                <!-- Generated image -->
+                <div class="col-md-7">
+
+                    {% if image_url %}
+                    <img
+                        src="{{ image_url }}"
+                        alt="AI-generated exhibition of the submitted object"
+                        class="img-fluid w-100 artwork-image">
+                    {% endif %}
+
+                </div>
+
+                <!-- Museum label -->
+                <div class="col-md-5">
+
+                    {% if label %}
+                    <div class="museum-label">
+
+                        <p class="text-uppercase small">
+                            Museum of the Unusual Things
+                        </p>
+
+                        <hr>
+
+                        <div class="label-content">
+                            {{ label | safe }}
+                        </div>
+
+                    </div>
+                    {% endif %}
+
+                </div>
+
             </div>
-            <div class="d-grid">
-                <input type="submit" value="Submit" class="btn btn-primary">
-            </div>
-        </form>
-        
-        {% if result %}
-            <h3 class="mt-4">Response:</h3>
-            <div class="alert alert-secondary">{{ result }}</div>
+        </section>
+
         {% endif %}
+
+        <footer class="text-center mt-5 pt-4">
+            <p class="text-muted small">
+                An exploration of objects, meaning, and contemporary art.
+            </p>
+        </footer>
+
     </div>
+
 </body>
 </html>

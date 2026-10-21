@@ -1,85 +1,102 @@
-# minimal-flask-app
-Minimal code for a Flask app making calls to the OpenAI API.
+Museum of the Unusual Things
 
-You need Python 3 installed. Run the commands below from inside the project folder.
+Project Overview
 
+Museum of the Unusual Things is an interactive, AI-powered museum experience that transforms ordinary everyday objects into fictional works of contemporary art.
 
-## macOS / Linux
+Users describe an object, and the application generates an artwork tombstone, an extended museum label, and an image description. It then uses the generated text to create a visual representation of the artwork.
 
-```bash
-# Create virtual environment
-python3 -m venv ./venv
+The project explores how artificial intelligence can imitate the language of contemporary art criticism and transform familiar objects through interpretation, abstraction, and visual representation.
 
-# Activate your virtual environment
-source venv/bin/activate
+How It Works
 
-# Install the required packages
-pip3 install flask openai python-dotenv gunicorn
+Object description: The user enters a description of an ordinary object, including details such as its shape, colour, material, and condition.
 
-# Rename the file .env-bup to .env
-mv .env-bup .env
-# Then open .env and add your OPENAI_API_KEY
+Text generation: GPT-4.1 generates an artwork tombstone and an extended museum label inspired by International Art English.
 
-# Run the app
-python3 app.py
-```
+Image description: The model produces a visual description consistent with the fictional artwork and its interpretation.
 
-## Windows (PowerShell)
+Image generation: The application combines the generated museum label and image description into a prompt for GPT Image.
 
-```powershell
-# Create virtual environment
+Artwork display: The generated image is saved in the application's static folder and displayed alongside the text.
+
+The original object remains recognizable throughout the process. The image-generation prompt is derived from the AI-generated museum label and image description rather than relying only on the user's initial input.
+
+International Art English
+
+The text-generation instructions are inspired by Alix Rule and David Levine's 2012 essay, International Art English, which examines the specialized language used in contemporary art discourse.
+
+The application incorporates three principles:
+
+Abstraction and nominalization: Everyday qualities and actions are reframed through abstract concepts such as materiality, spatiality, relationality, and transformation.
+
+Theoretical framing: The artwork is connected to broader cultural, social, and theoretical questions through art-critical language.
+
+Complex syntax and specialized vocabulary: The label uses elaborate sentence structures and theoretical terminology while remaining coherent and connected to the original object.
+
+The application also generates fictional artists, artwork details, provenance, and references to invented theorists and books. These details are presented as fictional rather than as real-world facts.
+
+Technology
+
+Python
+
+Flask
+
+OpenAI Responses API (gpt-4.1)
+
+OpenAI Images API (gpt-image-1)
+
+HTML and CSS
+
+python-dotenv
+
+Gunicorn
+
+Running the Project Locally
+
+Requirements
+
+Python 3
+
+An OpenAI API key with access to the required models
+
+Installation
+
+Clone or download this repository.
+
+Open a terminal in the project directory.
+
+Create and activate a virtual environment:
+
 python -m venv venv
-
-# Activate your virtual environment
 .\venv\Scripts\Activate.ps1
 
-# Install the required packages
-pip install flask openai python-dotenv gunicorn
+Install the dependencies:
 
-# Rename the file .env-bup to .env
-Rename-Item .env-bup .env
-# Then open .env and add your OPENAI_API_KEY
+pip install -r requirements.txt
 
-# Run the app
+Create a .env file in the project root and add your API key:
+
+OPENAI_API_KEY=your_api_key_here
+
+Replace the placeholder with your own API key. Never commit your .env file or expose your API key publicly.
+
+Start the application:
+
 python app.py
-```
 
-Notes for Windows:
+Open http://127.0.0.1:5000 in your browser.
 
-- If `python` is not recognised, use `py` instead (for example, `py -m venv venv` and `py app.py`).
-- If PowerShell says that running scripts is disabled, run this once and try the activation again:
-  `Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned`
-- With Command Prompt (cmd) instead of PowerShell, activate with `venv\Scripts\activate.bat` and rename with `ren .env-bup .env`.
-- `gunicorn` installs on Windows but cannot run there. It is only needed when deploying (for example, on Render), so locally always start the app with `python app.py`.
+Reflection: Language, Fluency, and Artificial Intelligence
 
-## Which terminal am I using?
+This project explores how a language model can reproduce recognizable patterns associated with contemporary art criticism as an art curator. By using abstraction, theoretical references, and complex syntax, the generated labels imitate a rhetorical style while being inspired by International Art English.
 
-Use a **Linux-style shell** if you can: the commands are the same on every platform, which makes it easier to follow tutorials and to get help.
+The results can sound convincing and very sophisticated, but fluency does not necessarily indicate genuine understanding. A model can generate theoretical language that appears meaningful while remaining vague or only loosely connected to the object. For this reason, the instructions emphasize on preserving the object's specific physical details and maintaining coherence.
 
-- **macOS / Linux:** the built-in Terminal already is one. Use the *macOS / Linux* commands below.
-- **Windows, recommended:** install [Git for Windows](https://git-scm.com/download/win), which includes **Git Bash**, or install **WSL** (Windows Subsystem for Linux) by running `wsl --install` in PowerShell. Both give you Linux-style commands.
-  - In **WSL**, use the *macOS / Linux* commands exactly as written.
-  - In **Git Bash**, use the *macOS / Linux* commands, with two changes: use `python` instead of `python3`, and activate with `source venv/Scripts/activate`.
-- **Windows, default:** the terminal in VS Code opens **PowerShell** by default (the prompt starts with `PS C:\...`). If you stay with it, use the *Windows (PowerShell)* commands below.
+The image-generation stage extends this experiment from language into visual representation. What was aimed at in this assignment was to create a contemporary museum that could generate unusual artworks. Because the image prompt is created from the generated label and image description, the visual result reflects the model's interpretation of the generated text.
 
-In VS Code, the dropdown next to the `+` in the terminal panel shows which shell is open and lets you pick another one (Git Bash and WSL appear there once installed).
+Ultimately, the project examines both the creative possibilities and the limitations of AI-generated art discourse: convincing creative artworks can be created, but coherence and meaningful interpretation still require attention as text can sound a bit confusing.
 
-## Check that it works
+License
 
-When the virtual environment is active, `(venv)` appears at the start of your prompt. After `python app.py` (or `python3 app.py`), open <http://127.0.0.1:5000> in your browser.
-
-VS Code may show a message saying that an environment file is configured but terminal environment injection is disabled (`python.terminal.useEnvFile`). That is fine: the app loads `.env` by itself, so you can ignore the message and leave the setting off.
-
-## Deploying on Render
-
-- **Build command:** `pip install flask openai python-dotenv gunicorn`
-- **Start command:** `gunicorn app:app`
-- **Environment variable:** `OPENAI_API_KEY` = your key. Never commit your key to GitHub.
-
-If the deploy fails with `gunicorn: command not found` (status 127), `gunicorn` is missing from the build command. If it fails with `No module named 'openai'`, `openai` is missing.
-
-### If Render times out
-
-If requests time out (the logs may show `WORKER TIMEOUT`), for example when the OpenAI call is slow, add the `--timeout` parameter to the `gunicorn` line in the Render configuration. gunicorn stops a request after 30 seconds by default, and this raises the limit to 240 seconds:
-
-- **Start command:** `gunicorn app:app --timeout 240`
+This project was created for an academic assignment. See the repository's license file for licensing information.
